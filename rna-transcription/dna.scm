@@ -3,13 +3,9 @@
 
 
 (define (to-rna dna)
-  (define (to-rna* dna rna)
-    (if (string-null? dna) rna 
-      (let ((nuc 
-	      (cond ((char=? (string-ref dna 0) #\G) "C")
-	            ((char=? (string-ref dna 0) #\C) "G")
-	            ((char=? (string-ref dna 0) #\T) "A")
-	            ((char=? (string-ref dna 0) #\A) "U")
-		    (else (error "invalid dna nucleotid")))))
-	(to-rna* (substring dna 1) (string-append rna nuc)))))
-  (to-rna* dna ""))
+  (string-map (lambda (nuc)
+		(cond ((char=? nuc #\G) #\C)
+		      ((char=? nuc #\C) #\G)
+	              ((char=? nuc #\T) #\A)
+	              ((char=? nuc #\A) #\U)))
+	      dna))
